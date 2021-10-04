@@ -19,11 +19,11 @@ function peticionGet(){
 function peticionPost(){
 
     const juego={
-        id:2,
-        developer:"Microsoft",
-        minage:15,
-        category_id:1,
-        name:"Rayman"
+        id:$("#miId").val(),
+        developer:$("#developer").val(),
+        minage:$("#minage").val(),
+        category_id:$("#cat_id").val(),
+        name:$("#name").val()
     }
 
     let datasend=JSON.stringify(juego)
@@ -105,5 +105,50 @@ function mostrarGames(games){
         console.log(game.minage)
         console.log(game.category_id)
         console.log(game.name)
+    });
+}
+
+function getGames(){
+    $.ajax({
+        method:"GET",
+        url: endPoint,
+
+        success:function(data){
+            var misItems = data.items;
+
+            for(i = 0; i < misItems.length; i++)
+            {
+                $("#items").append("<tr>");
+                $("#items").append("<td>" + misItems[i].id + "</td>");
+                $("#items").append("<td>" + misItems[i].developer + "</td>");
+                $("#items").append("<td>" + misItems[i].minage + "</td>");
+                $("#items").append("<td>" + misItems[i].category_id + "</td>");
+                $("#items").append("<td>" + misItems[i].name + "</td>");
+                $("#items").append('<td><button onclick="deleteGame('+ misItems[i].id+')">Borrar</button></td>');
+                $("#items").append('<td><button onclick="getGamesById('+ misItems[i].id+')">Editar</button></td>');
+                $("#items").append("</tr>");
+            }
+        }
+    });
+}
+
+
+function getGamesById(idItem){
+    $.ajax({
+        method:"GET",
+        url: "https://g37d016d3319081-db202109231930.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/games/games/" + idItem,
+        success:function(data){
+            console.log(data);
+            var item = data.items[0];
+
+            $("#miId").val(item.id);
+            $("#developer").val(item.developer);
+            $("#minage").val(item.minage);
+            $("#cat_id").val(item.category_id);
+            $("#name").val(item.name)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            
+        }
     });
 }
