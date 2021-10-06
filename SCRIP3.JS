@@ -1,4 +1,6 @@
-const endPoint= "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/client/client";
+const endPoint= "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/message/message";
+
+
 
 function peticionGet(){
     $.ajax({
@@ -18,14 +20,12 @@ function peticionGet(){
 
 function peticionPost(){
 
-    const cliente={
+    const message={
         id:$("#miId").val(),
-        name:$("#name").val(),
-        email:$("#email").val(),
-        age:$("#age").val(),
+        messagetext:$("#messagetext").val()
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(message)
 
     console.log(datasend)
     $.ajax({
@@ -47,14 +47,13 @@ function peticionPost(){
 }
 
 function peticionPut(){
-    const cliente={
+    const message={
         id:$("#miId").val(),
-        name:$("#name").val(),
-        email:$("#email").val(),
-        age:$("#age").val(),
+        messagetext:$("#messagetext").val()
+
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(message)
 
     $.ajax({
 
@@ -75,11 +74,11 @@ function peticionPut(){
 
 }
 function peticionDelete(idElemento){
-    const cliente={
+    const message={
         id:idElemento
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(message)
 
     $.ajax({
 
@@ -110,23 +109,23 @@ function mostrarClients(games){
     });
 }
 
-function getClientes(){
+function getMessages(){
+
     $.ajax({
         method:"GET",
         url: endPoint,
 
         success:function(data){
+            
             var misItems = data.items;
 
             for(i = 0; i < misItems.length; i++)
             {
                 $("#items").append("<tr>");
                 $("#items").append("<td>" + misItems[i].id + "</td>");
-                $("#items").append("<td>" + misItems[i].name + "</td>");
-                $("#items").append("<td>" + misItems[i].email + "</td>");
-                $("#items").append("<td>" + misItems[i].age + "</td>");
-                $("#items").append('<button class="btn btn-danger" onclick="peticionDelete('+ misItems[i].id+')">Borrar</button>');
-                $("#items").append('<button class="btn btn-success" onclick="getclientById('+ misItems[i].id+')">Editar</button>');
+                $("#items").append("<td>" + misItems[i].messagetext + "</td>");
+                $("#items").append('<button class="btn btn-danger" onclick="peticionDelete('+ misItems[i].id+')">Borrar</button> ');
+                $("#items").append('<button class="btn btn-success" onclick="getMessageById('+ misItems[i].id+')">Editar</button>');
                 $("#items").append("</tr>");
             }
         }
@@ -134,22 +133,21 @@ function getClientes(){
 }
 
 
-function getclientById(idItem){
+function getMessageById(idItem){
 
     $.ajax({
         method:"GET",
-        url: "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/client/client/"+idItem,
+        url: "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/message/message/"+idItem,
         success:function(data){
             
             var item = data.items[0];
             $("#miId").val(item.id);
-            $("#name").val(item.name);
-            $("#email").val(item.email);
-            $("#age").val(item.age);
+            $("#messagetext").val(item.messagetext);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             
         }
     });
 }
+
 

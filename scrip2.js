@@ -1,4 +1,4 @@
-const endPoint= "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/client/client";
+const endPoint= "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/games/games";
 
 function peticionGet(){
     $.ajax({
@@ -18,14 +18,15 @@ function peticionGet(){
 
 function peticionPost(){
 
-    const cliente={
+    const juego={
         id:$("#miId").val(),
-        name:$("#name").val(),
-        email:$("#email").val(),
-        age:$("#age").val(),
+        developer:$("#developer").val(),
+        minage:$("#minage").val(),
+        category_id:$("#cat_id").val(),
+        name:$("#name").val()
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(juego)
 
     console.log(datasend)
     $.ajax({
@@ -47,14 +48,15 @@ function peticionPost(){
 }
 
 function peticionPut(){
-    const cliente={
+    const juego={
         id:$("#miId").val(),
-        name:$("#name").val(),
-        email:$("#email").val(),
-        age:$("#age").val(),
+        developer:$("#developer").val(),
+        minage:$("#minage").val(),
+        category_id:$("#cat_id").val(),
+        name:$("#name").val()
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(juego)
 
     $.ajax({
 
@@ -65,7 +67,7 @@ function peticionPut(){
         contentType:"application/json",
         complete:function(response){
             console.log("Actualizo el registro")
-            alert("Se actualizo el registro")
+            alert("Actualización exitosa")
         },
         error:function(error){
          
@@ -75,11 +77,11 @@ function peticionPut(){
 
 }
 function peticionDelete(idElemento){
-    const cliente={
+    const juego={
         id:idElemento
     }
 
-    let datasend=JSON.stringify(cliente)
+    let datasend=JSON.stringify(juego)
 
     $.ajax({
 
@@ -100,7 +102,7 @@ function peticionDelete(idElemento){
 }
 
 
-function mostrarClients(games){
+function mostrarGames(games){
     games.forEach(game =>{
         console.log(game.id)
         console.log(game.developer)
@@ -110,7 +112,7 @@ function mostrarClients(games){
     });
 }
 
-function getClientes(){
+function getGames(){
     $.ajax({
         method:"GET",
         url: endPoint,
@@ -122,11 +124,12 @@ function getClientes(){
             {
                 $("#items").append("<tr>");
                 $("#items").append("<td>" + misItems[i].id + "</td>");
+                $("#items").append("<td>" + misItems[i].developer + "</td>");
+                $("#items").append("<td>" + misItems[i].minage + "</td>");
+                $("#items").append("<td>" + misItems[i].category_id + "</td>");
                 $("#items").append("<td>" + misItems[i].name + "</td>");
-                $("#items").append("<td>" + misItems[i].email + "</td>");
-                $("#items").append("<td>" + misItems[i].age + "</td>");
                 $("#items").append('<button class="btn btn-danger" onclick="peticionDelete('+ misItems[i].id+')">Borrar</button>');
-                $("#items").append('<button class="btn btn-success" onclick="getclientById('+ misItems[i].id+')">Editar</button>');
+                $("#items").append('<button class="btn btn-success" onclick="getGamesById('+ misItems[i].id+')">Editar</button>');
                 $("#items").append("</tr>");
             }
         }
@@ -134,22 +137,28 @@ function getClientes(){
 }
 
 
-function getclientById(idItem){
+function getGamesById(idItem){
 
     $.ajax({
         method:"GET",
-        url: "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/client/client/"+idItem,
+        url: "https://g9eabdb8d8ecfad-db202109241555.adb.sa-saopaulo-1.oraclecloudapps.com/ords/admin/games/games/"+idItem,
         success:function(data){
             
             var item = data.items[0];
             $("#miId").val(item.id);
-            $("#name").val(item.name);
-            $("#email").val(item.email);
-            $("#age").val(item.age);
+            $("#developer").val(item.developer);
+            $("#minage").val(item.minage);
+            $("#cat_id").val(item.category_id);
+            $("#name").val(item.name)
         },
         error: function(jqXHR, textStatus, errorThrown) {
             
         }
     });
 }
+
+var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+var alertTrigger = document.getElementById('liveAlertBtn')
+
+
 
