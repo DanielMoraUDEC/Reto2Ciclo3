@@ -39,6 +39,7 @@ function peticionPost(){
         complete:function(response){
             console.log(response.status)
             alert("Registro exitoso")
+            getGames();
         },
         error:function(error){
             
@@ -68,6 +69,7 @@ function peticionPut(){
         complete:function(response){
             console.log("Actualizo el registro")
             alert("Actualización exitosa")
+            getGames();
         },
         error:function(error){
          
@@ -93,6 +95,7 @@ function peticionDelete(idElemento){
         complete:function(response){
             console.log("Elimino el registro")
             alert("Se elimino el registro")
+            getGames();
         },
         error:function(error){
             console.log("Error Delete")
@@ -118,6 +121,7 @@ function getGames(){
         url: endPoint,
 
         success:function(data){
+            $("#items").empty();
             var misItems = data.items;
 
             for(i = 0; i < misItems.length; i++)

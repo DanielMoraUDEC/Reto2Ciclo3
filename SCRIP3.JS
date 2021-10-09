@@ -38,6 +38,8 @@ function peticionPost(){
         complete:function(response){
             console.log(response.status)
             alert("Registro exitoso")
+            getMessages();
+            
         },
         error:function(error){
             
@@ -65,6 +67,7 @@ function peticionPut(){
         complete:function(response){
             console.log("Actualizo el registro")
             alert("Se actualizo el registro")
+            getMessages();
         },
         error:function(error){
          
@@ -90,6 +93,7 @@ function peticionDelete(idElemento){
         complete:function(response){
             console.log("Elimino el registro")
             alert("Se elimino el registro")
+            getMessages();
         },
         error:function(error){
             console.log("Error Delete")
@@ -99,7 +103,7 @@ function peticionDelete(idElemento){
 }
 
 
-function mostrarClients(games){
+/*function mostrarClients(games){
     games.forEach(game =>{
         console.log(game.id)
         console.log(game.developer)
@@ -107,7 +111,7 @@ function mostrarClients(games){
         console.log(game.category_id)
         console.log(game.name)
     });
-}
+}*/
 
 function getMessages(){
 
@@ -116,8 +120,10 @@ function getMessages(){
         url: endPoint,
 
         success:function(data){
+            $("#items").empty();
             
             var misItems = data.items;
+            
 
             for(i = 0; i < misItems.length; i++)
             {
